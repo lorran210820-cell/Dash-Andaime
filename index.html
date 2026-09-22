@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#071a2f">
+  <title>Engenharia Digital | Controle de Andaimes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css?v=20260922-2">
+</head>
+<body><div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><img src="assets/logo-enesa.png" alt="ENESA"><div><strong>Engenharia Digital</strong><small>Gestão de Andaimes</small></div></div>
+    <nav aria-label="Navegação principal"><a class="active" href="#visao-geral">Visão geral</a><a href="#efetivo">Efetivo</a><a href="#producao">Produção</a><a href="#programacao">Programação</a><a href="#registros">Registros</a></nav>
+    <div class="sidebar-note"><span class="pulse"></span><div><b>Modo visualização</b><small>GitHub Pages • Base estática</small></div></div>
+  </aside>
+  <main>
+    <section class="hero"><img class="hero-bg" src="assets/obra-s11d.jpeg" alt="Obra industrial Serra Sul S11D"><div class="hero-shade"></div><div class="hero-content">
+      <div class="hero-copy"><p class="eyebrow light">PROJETO +20 MTPA • PACOTE 12445B</p><h1>Controle de Produção de Andaimes</h1><p>Efetivo, absenteísmo, produtividade e avanço da programação em uma única visão operacional.</p><span class="simulation-badge">● S36 a S39: cenário simulado</span></div>
+      <div class="hero-logos"><img src="assets/logo-enesa.png" alt="ENESA"><span></span><img src="assets/logo-vale.png" alt="Vale"></div>
+    </div></section>
+    <div class="content">
+      <header class="topbar"><div><p class="eyebrow">PAINEL OPERACIONAL</p><h2>Visão consolidada</h2></div><div class="status"><span>Última data da base</span><b id="lastDate">—</b></div></header>
+      <section class="filters" aria-label="Filtros">
+        <label>Semana<select id="weekFilter"><option value="all">Todas as semanas</option></select></label><label>Encarregado<select id="leaderFilter"><option value="all">Todos os encarregados</option></select></label><label>Turno<select id="shiftFilter"><option value="all">Todos os turnos</option><option>Diurno</option><option>Noturno</option></select></label><label>Período<input id="dateStart" type="date"></label><label class="date-end">até<input id="dateEnd" type="date"></label><button id="clearFilters" type="button">Limpar filtros</button>
+      </section>
+      <section id="visao-geral" class="kpis" aria-label="Indicadores principais">
+        <article class="kpi primary"><span>Produção total</span><strong id="kpiTotal">—</strong><small>metros lineares</small></article><article class="kpi target"><span>Produtividade</span><strong id="kpiProductivity">—</strong><small><b>Meta 42</b> ML/MOD/dia</small></article><article class="kpi"><span>Efetivo planejado</span><strong id="kpiPlanned">—</strong><small>média diária de montadores</small></article><article class="kpi"><span>Presentes</span><strong id="kpiPresent">—</strong><small>média diária</small></article><article class="kpi danger"><span>Absenteísmo</span><strong id="kpiAbsence">—</strong><small id="absenceDetail">referência: 17%</small></article><article class="kpi night"><span>Efetivo noturno</span><strong id="kpiNight">—</strong><small>média diária presente</small></article>
+      </section>
+      <section id="efetivo" class="grid effective-grid">
+        <article class="panel effective-card"><div class="panel-head"><div><p class="eyebrow">EFETIVO</p><h2>Planejado × Presente × Faltas</h2></div><span>visão diária</span></div><div class="chart-wrap"><canvas id="effectiveChart"></canvas></div></article>
+        <article class="panel gauge-card"><div class="panel-head"><div><p class="eyebrow">META OPERACIONAL</p><h2>Desempenho médio</h2></div></div><div class="gauge"><div id="gaugeFill" class="gauge-fill"><div class="gauge-inner"><strong id="gaugeValue">—</strong><small>ML/MOD/dia</small></div></div></div><div class="gauge-scale"><span>0</span><b>Meta 42</b><span>60+</span></div><div id="gaugeStatus" class="status-pill">—</div></article>
+      </section>
+      <section id="producao" class="grid charts-grid">
+        <article class="panel wide"><div class="panel-head"><div><p class="eyebrow">TENDÊNCIA</p><h2>Produção por semana</h2></div><span class="legend"><i class="blue"></i>Montagem <i class="orange"></i>Desmontagem</span></div><div class="chart-wrap"><canvas id="weeklyChart"></canvas></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">TURNOS</p><h2>Produção por turno</h2></div></div><div class="donut-wrap"><canvas id="shiftChart"></canvas><div class="donut-center"><strong id="shiftTotal">—</strong><small>ML total</small></div></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">VARIAÇÃO</p><h2>Produtividade diária</h2></div><span class="info">Meta: 42</span></div><div class="chart-wrap compact"><canvas id="productivityChart"></canvas></div></article>
+      </section>
+      <section class="grid lower-grid">
+        <article class="panel ranking"><div class="panel-head"><div><p class="eyebrow">RANKING</p><h2>Produção por encarregado</h2></div><span>Top 10</span></div><div id="rankingList" class="ranking-list"></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">COMPARATIVO</p><h2>Produtividade das equipes</h2></div><span>ML/MOD/dia</span></div><div class="chart-wrap tall"><canvas id="leadersChart"></canvas></div></article>
+      </section>
+      <section id="programacao" class="panel program-panel">
+        <div class="panel-head program-head"><div><p class="eyebrow">PROGRAMAÇÃO S39</p><h2>Avanço das atividades</h2><p>Atividades da programação semanal com percentuais simulados para acompanhamento.</p></div><div class="program-summary"><span id="programCount">—</span><strong id="programAverage">—</strong></div></div>
+        <div class="program-filters"><button class="active" data-discipline="all">Todas</button><button data-discipline="Estruturas">Estruturas</button><button data-discipline="Equipamentos">Equipamentos</button><button data-discipline="Elétrica">Elétrica</button><button data-discipline="Parada">Parada</button><button data-discipline="Gaveteiro">Gaveteiro</button></div><div id="programList" class="program-list"></div>
+      </section>
+      <section id="registros" class="panel table-panel">
+        <div class="panel-head"><div><p class="eyebrow">DETALHAMENTO</p><h2>Registros de produção</h2></div><div class="table-actions"><input id="searchInput" type="search" placeholder="Buscar encarregado ou ID"><button id="downloadCsv" type="button">Exportar CSV</button></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Semana</th><th>Data</th><th>Turno</th><th>Encarregado</th><th>Prev.</th><th>Pres.</th><th>Faltas</th><th>HH</th><th>Montagem</th><th>Desmontagem</th><th>Total</th><th>ML/MOD</th><th>Status</th></tr></thead><tbody id="dataBody"></tbody></table></div><div class="table-foot"><span id="recordCount">—</span><div><button id="prevPage" type="button">Anterior</button><span id="pageInfo">—</span><button id="nextPage" type="button">Próxima</button></div></div>
+      </section>
+      <footer>Dashboard estático • Dados simulados claramente identificados • ENESA / Vale S11D</footer>
+    </div>
+  </main>
+</div><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script><script src="app.js?v=20260922-2"></script></body></html>
